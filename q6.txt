@@ -1,0 +1,147 @@
+options = ["Create", "Manage", "End"]
+create_options = ["Student", "Teacher", "Homeroom Teacher", "End"]
+manage_options = [ "Class", "Student", "Teacher", "Homeroom Teacher","End"] 
+
+
+students = []
+teachers = []
+homeroom_teachers = []
+each_classes = []
+
+
+def new_user_student():
+ first = input("Please enter your first name: ")
+ last = input("Please enter your last name: ") 
+ class_name = input("Please enter your Class Name: ")
+ student = {"first name": first, "last name": last, "class name": class_name}
+ students.append(student)
+ 
+ 
+def new_user_teacher():
+ while True:
+     first = input("Please enter your first name: ")
+     last = input("Please enter your last name: ")  
+     subject = input("\n Please enter subject: ")
+     try:
+      classes = int(input("\nHow many classes do you teach?\n "))
+     except ValueError:
+      print("Please enter numerical value only.")
+      break
+     class_multi = []
+     for i in range (classes):
+      class_name_multi = input("\nPlease enter a class name: ")
+      class_multi.append(class_name_multi)
+      each_class = {"teacher first name": first, "teacher last name": last, "class name": class_name_multi }
+      each_classes.append(each_class)
+     teacher = {"first name": first, "last name": last, "subject": subject, "number of classes": classes, "class list": class_multi }
+     teachers.append(teacher)
+     break
+
+
+def new_user_homeroom_teacher():
+ first = input("Please enter your first name: ")
+ last = input("Please enter your last name: ")  
+ class_name_other = input( "\nPlease enter the name of the class you lead: ")
+ homeroom_teacher = {"first name": first, "last name": last, "class name": class_name_other}
+ homeroom_teachers.append(homeroom_teacher)
+ 
+ 
+def find_class_info():
+  class_q = input("What is the name of the class you want to find?")
+  for homeroom_teacher in homeroom_teachers:
+   if class_q == homeroom_teacher['class name']:
+      print(f"\nHomeroom Teacher: {homeroom_teacher['first name']}, {homeroom_teacher['last name']}\n\nStudents:\n")
+  for student in students:
+   if class_q == student['class name']:
+    print(f"{student['first name']}, {student['last name']}")
+   continue
+
+
+def find_student_info():
+ name_q = input("What is the student's first name?")
+ name_q2 = input("What is the student's last name?")
+ for student in students:
+   if name_q == student['first name'] and name_q2 == student['last name']:
+     print(f"\nClass: {student['class name']}")
+     find_teacher = student['class name']
+     for each_class in each_classes:
+       if find_teacher == each_class['class name']:
+         print(f"\nTeacher: {each_class['teacher first name']}, {each_class['teacher last name']}")
+   
+
+def find_teacher_info():
+  teacher_name_q = input("What is the teacher's first name?")
+  teacher_name_q2 = input("What is the teacher's last name?")
+  for teacher in teachers:
+    if teacher_name_q == teacher['first name'] and teacher_name_q2 == teacher['last name']:
+      print(f"Classes taught by {teacher['first name']}{teacher['last name']}:{teacher['class list']}")
+
+
+def find_homeroom_info():
+  hr_name_q = input("What is the homeroom teacher's first name?")
+  hr_name_q2 = input("What is the homeroom teacher's last name?")
+  for homeroom_teacher in homeroom_teachers:
+    if hr_name_q == homeroom_teacher['first name'] and hr_name_q2 == homeroom_teacher['last name']:
+      print(f"Classes taught by {homeroom_teacher['first name']} {homeroom_teacher['last name']}:{homeroom_teacher['class name']}")
+
+
+def new_user():
+ while True:
+     print("\nWhat type of user would you like to create:\n ")
+     for item in create_options:
+       print(f"{create_options.index(item) + 1}. {item}")
+     try:
+      choice_create = int(input("\nPlease enter an option number: "))
+     except ValueError:
+      print("\nPlease enter a number between 1-4.")
+     if choice_create == 1:
+       new_user_student()
+     elif choice_create == 2:
+       new_user_teacher()
+     elif choice_create == 3:
+       new_user_homeroom_teacher()   
+     elif choice_create == 4:
+       break
+     else:
+       continue
+         
+
+def manage_user():
+  while True:
+      print("\nWhat would you like to manage?\n ")
+      for item in manage_options:
+       print(f"{manage_options.index(item) + 1}. {item}")
+      try:
+       choice_manage = int(input("\nPlease enter an option number: "))
+      except ValueError:
+       print("\nPlease enter a number between 1-5.")
+      if choice_manage == 1:
+        find_class_info()
+      elif choice_manage ==2:
+       find_student_info()
+      elif choice_manage == 3:
+       find_teacher_info()
+      elif choice_manage == 4:
+        find_homeroom_info()
+      elif choice_manage == 5:
+       break
+      else:
+       continue
+    
+
+while True:
+    print("\n- School Database -\n")
+    print("Options:\n ")
+    for item in options:
+     print(f"{options.index(item) + 1}. {item}")
+    try:
+     info = int(input("\nPlease enter an option number: "))
+    except ValueError:
+     print("\nPlease enter a number between 1-3.")
+    if info == 1:
+     new_user()
+    elif info == 2:
+      manage_user()
+    elif info == 3:
+     break
+    print("End")
